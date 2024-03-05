@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import '../../../model/animal_model.dart';
 import '../../../utils/utils.dart';
 
-class AnimalPostImages extends StatelessWidget {
-  const AnimalPostImages({super.key, required this.animal});
-  final AnimalModel animal;
+class PostImages extends StatelessWidget {
+  const PostImages({super.key, required this.dataModel});
+  final dynamic dataModel;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -22,27 +22,31 @@ class AnimalPostImages extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: CarouselSlider(
-              items: animal.images.map((image) => GestureDetector(
-                onTap: () => Utils.showImage(context,image),
-                child: CachedNetworkImage(imageUrl: image,fit: BoxFit.cover,width: MediaQuery.sizeOf(context).width,
-                  placeholder: (context, url) {
-                    return Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      color: Colors.white,
-                      child: const Center(
-                        child: const SizedBox(
-                          height: 15,
-                          width: 15,
-                          child: CircularProgressIndicator(
-                            color: Colors.blue,
+              items: [
+                ...dataModel.images.map((image){
+                  return GestureDetector(
+                    onTap: () => Utils.showImage(context,image),
+                    child: CachedNetworkImage(imageUrl: image,fit: BoxFit.cover,width: MediaQuery.sizeOf(context).width,
+                      placeholder: (context, url) {
+                        return Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          color: Colors.white,
+                          child: const Center(
+                            child: const SizedBox(
+                              height: 15,
+                              width: 15,
+                              child: CircularProgressIndicator(
+                                color: Colors.blue,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),).toList(), options:  CarouselOptions(
+                        );
+                      },
+                    ),
+                  );
+                },)
+              ], options:  CarouselOptions(
             initialPage: Random().nextInt(2),
             viewportFraction: 1,
             enableInfiniteScroll: true,

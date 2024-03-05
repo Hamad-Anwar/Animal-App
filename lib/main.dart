@@ -1,6 +1,6 @@
 import 'package:animal/view/splash/splash_view.dart';
 import 'package:animal/view_model/controllers/home_page_controller.dart';
-import 'package:animal/view_model/controllers/post_animal_controller.dart';
+import 'package:animal/view_model/controllers/post_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

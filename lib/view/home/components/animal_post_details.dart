@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../model/animal_model.dart';
 
-class AnimalPostDetail extends StatelessWidget {
-  const AnimalPostDetail({super.key, required this.animal});
-  final AnimalModel animal;
+class PostDetail extends StatelessWidget {
+  const PostDetail({super.key, required this.dataModel});
+  final dynamic dataModel;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,14 +14,14 @@ class AnimalPostDetail extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(animal.name,style: const TextStyle(
+              Text(dataModel.name,style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 15
               ),),
               Row(
                 children: [
-                  Text('\$ ${animal.price}',style: const TextStyle(
+                  Text('\$ ${dataModel.price}',style: const TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.bold,
                       fontSize: 13
@@ -38,7 +38,7 @@ class AnimalPostDetail extends StatelessWidget {
                   const SizedBox(width: 5,),
                   const Text('0 km'),
                   const SizedBox(width: 10,),
-                  Text(animal.location,style: const TextStyle(
+                  Text(dataModel.location,style: const TextStyle(
                       color: Colors.grey
                   ),),
                 ],

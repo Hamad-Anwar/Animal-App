@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AnimalModel {
-  AnimalModel(
+class PostModel {
+  PostModel(
       {required this.name,
       required this.owner,
       required this.distance,
@@ -15,9 +15,9 @@ class AnimalModel {
   final String price;
   final Owner owner;
   final List<String> images;
-  factory AnimalModel.fromFirestore(DocumentSnapshot doc) {
+  factory PostModel.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data() as Map;
-    return AnimalModel(
+    return PostModel(
       name: data['name'],
       location: data['location'],
       distance: data['distance'],

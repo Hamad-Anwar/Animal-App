@@ -4,23 +4,27 @@ import '../../model/animal_model.dart';
 
 class FirebaseServices {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  Future<void> addAnimal(AnimalModel animal) {
-    return _db.collection('animals').add({
-      'name': animal.name,
-      'location': animal.location,
-      'distance': animal.distance,
-      'price': animal.price,
+  Future<void> addPost({required PostModel post,required String type}) {
+    return _db.collection(type).add({
+      'name': post.name,
+      'location': post.location,
+      'distance': post.distance,
+      'price': post.price,
       'owner': {
-        'name': animal.owner.name,
-        'id': animal.owner.id,
-        'date': animal.owner.date,
+        'name': post.owner.name,
+        'id': post.owner.id,
+        'date': post.owner.date,
       },
-      'images': animal.images,
+      'images': post.images,
     });
   }
 
-  Future<List<AnimalModel>> getAnimals() async {
-    QuerySnapshot snapshot = await _db.collection('animals').get();
-    return snapshot.docs.map((doc) => AnimalModel.fromFirestore(doc)).toList();
+  Future<List<PostModel>> getAnimals() async {
+    QuerySnapshot snapshot = await _db.collection('animal').get();
+    return snapshot.docs.map((doc) => PostModel.fromFirestore(doc)).toList();
+  }
+  Future<List<PostModel>> getFarms() async {
+    QuerySnapshot snapshot = await _db.collection('farms').get();
+    return snapshot.docs.map((doc) => PostModel.fromFirestore(doc)).toList();
   }
 }

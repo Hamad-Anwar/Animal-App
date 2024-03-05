@@ -5,16 +5,16 @@ import 'animal_post_images.dart';
 import 'animal_post_social_icon.dart';
 import 'animal_post_top.dart';
 
-class AnimalPostHolder extends StatefulWidget {
-  const AnimalPostHolder({super.key, required this.animal});
+class PostHolder extends StatefulWidget {
+  const PostHolder({super.key, required this.dataModel});
 
-  final AnimalModel animal;
+  final dynamic dataModel;
 
   @override
-  State<AnimalPostHolder> createState() => _AnimalPostHolderState();
+  State<PostHolder> createState() => _PostHolderState();
 }
 
-class _AnimalPostHolderState extends State<AnimalPostHolder>
+class _PostHolderState extends State<PostHolder>
     with AutomaticKeepAliveClientMixin {
   bool get wantKeepAlive => true;
   @override
@@ -23,15 +23,15 @@ class _AnimalPostHolderState extends State<AnimalPostHolder>
       margin: const EdgeInsets.only(bottom: 20),
       child: Column(
         children: [
-          AnimalPostTop(animal: widget.animal),
+          PostTop(dataModel: widget.dataModel),
           const SizedBox(
             height: 10,
           ),
-          AnimalPostImages(animal: widget.animal),
+          PostImages(dataModel: widget.dataModel),
           const SizedBox(
             height: 5,
           ),
-          AnimalPostDetail(animal: widget.animal),
+          PostDetail(dataModel: widget.dataModel),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Divider(

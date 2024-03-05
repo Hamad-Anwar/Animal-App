@@ -43,6 +43,8 @@ dependencies:
   cloud_firestore:
   cached_network_image:
   toast:
+  layout_pro:
+  animated_bottom_navigation_bar: ^1.3.3
 
 
 dev_dependencies:

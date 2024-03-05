@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../model/animal_model.dart';
 
-class AnimalPostTop extends StatelessWidget {
-  const AnimalPostTop({super.key, required this.animal});
-  final AnimalModel animal;
+class PostTop extends StatelessWidget {
+  const PostTop({super.key, required this.dataModel});
+  final dynamic dataModel;
   @override
   Widget build(BuildContext context) {
     return  const Row(
