@@ -1,68 +1,172 @@
+import 'dart:async';
+
+import 'package:animal/data/firebase/file_services.dart';
 import 'package:animal/data/firebase/firebase_services.dart';
+import 'package:animal/main.dart';
 import 'package:animal/model/animal_model.dart';
+import 'package:animal/utils/utils.dart';
 import 'package:animal/view_model/controllers/home_page_controller.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 class PostAnimalController extends ChangeNotifier {
+  // animal post data
   final TextEditingController name = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController age = TextEditingController();
   final TextEditingController price = TextEditingController();
-  final TextEditingController location = TextEditingController();
+  final TextEditingController milk = TextEditingController();
+  final TextEditingController noOfChildProduced = TextEditingController();
+  final TextEditingController description = TextEditingController();
   final TextEditingController type = TextEditingController();
-  final FirebaseServices firebaseServices=FirebaseServices();
-  String selectedPostType='animals';
-  bool loading=false;
+  final TextEditingController address = TextEditingController();
+  List<String> selectedAnimalImages = [];
+
+  // farm post data
+
+  final TextEditingController startDate = TextEditingController();
+  final TextEditingController farmName = TextEditingController();
+  final TextEditingController endDate = TextEditingController();
+  final TextEditingController farmPrice = TextEditingController();
+  final TextEditingController acre = TextEditingController();
+  final FirebaseServices firebaseServices = FirebaseServices();
+  List<String> selectedFarmImages = [];
+  String selectedPostType = 'animals';
+  bool loading = false;
 
 
-  changePostType({required String type}){
-    selectedPostType=type;
+  pickStartDate({required BuildContext context}) async {
+    startDate.text = await Utils.pickDate(context: context);
+  }
+  pickEndDate({required BuildContext context}) async {
+    endDate.text = await Utils.pickDate(context: context);
+  }
+  pickAnimalImages() async {
+    final List<String> imageList = List.from(await Utils.pickImages());
+    if (imageList.isNotEmpty) {
+      selectedAnimalImages = selectedAnimalImages + imageList;
+      notifyListeners();
+    }
+  }
+  pickFarmImages() async {
+    final List<String> imageList = List.from(await Utils.pickImages());
+    if (imageList.isNotEmpty) {
+      selectedFarmImages = selectedFarmImages + imageList;
+      notifyListeners();
+    }
+  }
+  pickImage() {
+    if (selectedPostType == 'animals') {
+      pickAnimalImages();
+    } else {
+      pickFarmImages();
+    }
     notifyListeners();
   }
-  uploadPost({required BuildContext context}) {
+  removeAnimalImage({required String name}) {
+    selectedAnimalImages.remove(name);
+    notifyListeners();
+  }
+  removeFarmImage({required String name}) {
+    selectedFarmImages.remove(name);
+    notifyListeners();
+  }
+  changePostType({required String type}) {
+    selectedPostType = type;
+    notifyListeners();
+  }
+
+  uploadPost({required BuildContext context}){
+    if (selectedPostType == 'animals') {
+      uploadAnimal(context: context);
+    } else {
+      uploadFormPost(context: context);
+    }
+  }
+
+
+  uploadAnimal({required BuildContext context}) async {
     ToastContext().init(context);
     if (name.value.text.toString().isEmpty) {
       Toast.show('Please enter name');
+      return;
+    }
+    if (age.value.text.toString().isEmpty) {
+      Toast.show('Please enter age',);
       return;
     }
     if (price.value.text.toString().isEmpty) {
       Toast.show('Please enter price');
       return;
     }
-    if (location.value.text.toString().isEmpty) {
-      Toast.show('Please enter location');
+    if (milk.value.text.toString().isEmpty) {
+      Toast.show('Please enter quantity of milk');
       return;
     }
-    loading=true;
-    notifyListeners();
-    PostModel post = PostModel(
-        name: name.value.text.toString(),
-        owner:
-            Owner(name: 'Pankaj More', date: '11-Feb-2024', id: 'pankaj4410'),
-        distance: '0 km',
-        images: type.value.text.toString().toLowerCase()=='animals'? [
-          'https://firebasestorage.googleapis.com/v0/b/animal-dd877.appspot.com/o/cow%2Fimg3.png?alt=media&token=a2767a6e-fcc2-408a-9dcb-753bb45d02ef',
-          'https://firebasestorage.googleapis.com/v0/b/animal-dd877.appspot.com/o/cow%2Fimg2.png?alt=media&token=a169a48d-7b36-4f25-923b-7bf92baabdce',
-          'https://firebasestorage.googleapis.com/v0/b/animal-dd877.appspot.com/o/cow%2Fimg1.png?alt=media&token=a5910e1d-63df-4c1f-8579-41af61dcc950'
-        ] : [
-          'https://firebasestorage.googleapis.com/v0/b/animal-dd877.appspot.com/o/0_rtwJ4Yq-Fce88wU2.png?alt=media&token=a578c7b7-23ec-4df8-b767-68c4c7c4e8ed',
-          'https://firebasestorage.googleapis.com/v0/b/animal-dd877.appspot.com/o/img1.webp?alt=media&token=a7e0df71-110b-456d-a1f6-0e786aa3e69b',
-          'https://firebasestorage.googleapis.com/v0/b/animal-dd877.appspot.com/o/images.jpg?alt=media&token=860bf123-7b15-40d1-92dc-27c24eb1f216'
-        ],
-        location: location.value.text.toString(),
-        price: price.value.text.toString());
-    firebaseServices.addPost(post: post,type: type.value.text.toString().toLowerCase()).then((value) {
-      loading=false;notifyListeners();
-      Toast.show('Post is successfully uploaded');
-      Provider.of<HomePageController>(context,listen: false).insetData(context: context, model: post,type:type.value.text.toString().toLowerCase());
-      Navigator.pop(context);
-      name.clear();
-      price.clear();
-      location.clear();
+    if (noOfChildProduced.value.text.toString().isEmpty) {
+      Toast.show('Please enter no of child produced');
+      return;
+    }
+    if (address.value.text.toString().isEmpty) {
+      Toast.show('Please enter location',);
+      return;
+    }
 
-    }).onError((error, stackTrace) {
-      Toast.show('Something went wrong please try again');
-      loading=false;notifyListeners();
+    if(selectedAnimalImages.isEmpty){
+      Toast.show('Please upload at least one image',);
+      return;
+    }
+
+
+    loading = true;
+    notifyListeners();
+    Timer(const Duration(seconds: 1), () {
+      loading = false;
+      notifyListeners();
+      Navigator.pop(context);
+      Toast.show('Your post is being uploaded\nW\'ll notify you after posting');
     });
+    List<String> list = [];
+    String id=DateTime.now().microsecondsSinceEpoch.toString();
+    for (int i = 0; i < selectedAnimalImages.length; i++) {
+      try {
+        list.add((await FileServices.uploadFile(
+            filePath: selectedAnimalImages[i],
+            uploadPath: 'animal_${user!.location}/${user!.token.toString()}/$id/${DateTime.now().microsecondsSinceEpoch.toString()}.jpeg')));
+      } catch (_) {
+        if (kDebugMode) {
+          print(_.toString());
+        }
+      }
+    }
+    AnimalPostModel post= AnimalPostModel(id: id,
+        images: list,
+        name: name.value.text.toString(),
+        address: address.value.text.toString(),
+        age: age.value.text.toString(),
+        description: description.value.text.toString(),
+        milkInKg: milk.value.text.toString(),
+        noOfChildProduced: noOfChildProduced.value.text.toString(),
+        price: price.value.text.toString(),
+        owner: Owner(name: user!.name.toString(), date: Utils.formatDate(DateTime.now()), id: user!.token.toString(), contact: user!.phoneNumber!));
+    try {
+      await firebaseServices.addPost(post: post, type: 'animal');
+      ToastContext().init(currentContext!);
+      Toast.show('Your post is uploaded');
+      Provider.of<HomePageController>(currentContext!,listen: false).insertData(context: currentContext!, model: post, type: 'animals');
+    } catch (_) {
+    }
   }
+  uploadFormPost({required BuildContext context}){
+    Utils.showErrorDialog(context: context, error: 'Not Implemented yet');
+  }
+
+
+
+
+
 }

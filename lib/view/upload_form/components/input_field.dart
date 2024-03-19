@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 
 class InputField extends StatelessWidget {
   const InputField(
-      {super.key, required this.hint, required this.controller,  this.title, this.type, this.postFix});
+      {super.key, required this.hint, required this.controller,  this.title, this.type, this.postFix, this.enabled});
   final TextInputType? type;
   final String? title;
   final String hint;
+  final bool? enabled;
   final TextEditingController controller;
   final Widget? postFix;
   @override
@@ -28,23 +29,31 @@ class InputField extends StatelessWidget {
                     color: Colors.black26
                 )
             ),
-            child: TextFormField(
-              cursorColor: Colors.blue,
-              keyboardType: type,
-              controller: controller,
-              onTapOutside: (event) {
-                FocusScope.of(context).unfocus();
-              },
-              decoration: InputDecoration(
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    cursorColor: Colors.blue,
+                    keyboardType: type,
+                    enabled: enabled,
+                    controller: controller,
+                    onTapOutside: (event) {
+                      FocusScope.of(context).unfocus();
+                    },
+                    decoration: InputDecoration(
 
-                contentPadding: const EdgeInsets.only(bottom: 10),
-                hintText: hint,
-                suffixIcon: postFix,
-                hintStyle: const TextStyle(
-                  fontSize: 12,
+                      contentPadding: const EdgeInsets.only(bottom: 10),
+                      hintText: hint,
+                      hintStyle: const TextStyle(
+                        fontSize: 12,
+                      ),
+                      border: InputBorder.none,
+                    ),
+                  ),
                 ),
-                border: InputBorder.none,
-              ),
+                postFix??SizedBox.shrink(),
+                if(postFix!=null)SizedBox(width: 10,),
+              ],
             ),
           ),
         )

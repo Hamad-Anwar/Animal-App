@@ -4,28 +4,28 @@ import '../../../model/animal_model.dart';
 
 class PostTop extends StatelessWidget {
   const PostTop({super.key, required this.dataModel});
-  final dynamic dataModel;
+  final AnimalPostModel dataModel;
   @override
   Widget build(BuildContext context) {
-    return  const Row(
+    return  Row(
       children: [
-        CircleAvatar(
-          radius: 25,
+        const CircleAvatar(
+          radius: 20,
           backgroundColor: Colors.black12,
           child: Center(
-            child: Icon(Icons.person,color: Colors.white,size: 40,),
+            child: Icon(Icons.person,color: Colors.white,size: 30,),
           ),
         ),
-        SizedBox(width: 10,),
+        const SizedBox(width: 10,),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Pankaj More',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,height: 0),),
-            Text('Pankaj142',style: TextStyle(color: Colors.black54,fontSize: 12),),
+            Text(dataModel.owner.name,style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold,height: 0),),
+            // Text('Pankaj142',style: TextStyle(color: Colors.black54,fontSize: 12),),
             Row(
               children: [
-                Text('11-Feb-20 Market',style: TextStyle(color: Colors.black54,fontSize: 12),),
-                SizedBox(width: 10,),
+                Text('${dataModel.owner.date} Market',style: const TextStyle(color: Colors.black54,fontSize: 12),),
+                const SizedBox(width: 10,),
                 Icon(Icons.sell_outlined,color: Colors.red,size: 15,),
               ],
             ),

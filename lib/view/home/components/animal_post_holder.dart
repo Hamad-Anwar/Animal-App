@@ -20,7 +20,7 @@ class _PostHolderState extends State<PostHolder>
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 0),
       child: Column(
         children: [
           PostTop(dataModel: widget.dataModel),
@@ -32,13 +32,13 @@ class _PostHolderState extends State<PostHolder>
             height: 5,
           ),
           PostDetail(dataModel: widget.dataModel),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Divider(
-              color: Colors.black.withOpacity(.05),
-            ),
-          ),
-          const AnimalPostSocialIcon(),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 10),
+          //   child: Divider(
+          //     color: Colors.black.withOpacity(.05),
+          //   ),
+          // ),
+          // const AnimalPostSocialIcon(),
         ],
       ),
     );

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class FormPostHolder extends StatelessWidget {
   const FormPostHolder({super.key,required this.postModel});
-  final PostModel postModel;
+  final AnimalPostModel postModel;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -17,7 +17,7 @@ class FormPostHolder extends StatelessWidget {
           CachedNetworkImage(imageUrl: postModel.images[Random().nextInt(2)],fit: BoxFit.cover,),
           Positioned(
               right: 10,top: 10,
-              child: Text(postModel.distance,style: TextStyle(
+              child: Text('0 Km',style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20
